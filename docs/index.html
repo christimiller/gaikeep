@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAI Keep - Your AI Assistant</title>
+    <!-- Google Fonts for a decorative and engaging look -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Source Code Pro', monospace;
+            background: #f4f4f4;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: 'Source Code Pro', monospace;
+        }
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+        .menu-toggle {
+            display: block;
+            cursor: pointer;
+        }
+        .menu-toggle .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #fff;
+        }
+        .container {
+            margin-top: 60px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .full-height {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding-top: 50px; /* Offset for navbar */
+        }
+        .info-section-bg {
+            background-color: #eb8873;
+            color: white;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-border {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            width: 100%;
+            max-width: 400px;
+            min-width: 300px;
+        }
+        .btn {
+            background-color: #007BFF; /* Initial color blue */
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 1s ease; /* Slower transition */
+        }
+        .btn:hover {
+            background: #28a745; /* Ends at green */
+            color: #ffffff;
+        }
+        .btn:active {
+            background-color: #800080; /* Click color purple */
+        }
+        .section-title {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        .subtitle {
+            font-size: 18px;
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 36px;
+            margin-top: 20px;
+        }
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            .full-height {
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+            }
+            .text-block {
+                max-width: 45%;
+            }
+            .nav-links, .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                display: flex; /* Horizontal alignment of links */
+                flex-direction: row;
+            }
+            .menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var navLinks = document.getElementById('nav-links');
+            if (navLinks.style.display === 'block') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'block';
+            }
+        }
+        window.onresize = function() {
+            var navLinks = document.getElementById('nav-links');
+            if (window.innerWidth >= 768) {
+                navLinks.style.display = 'flex'; // Ensure nav is visible when resizing to wider screens
+            } else {
+                navLinks.style.display = 'none'; // Ensure nav is hidden when resizing to narrower screens
+            }
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <span class="menu-toggle" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </span>
+        <div id="nav-links">
+            <a href="#intro">Home</a>
+            <a href="#ai-terminology">AI Terminology</a>
+            <a href="#supported-tools">Supported Tools</a>
+        </div>
+    </header>
+
+    <section id="intro" class="full-height">
+        <div class="text-block">
+            <h1 class="main-title">GAI Keep</h1>
+            <p class="subtitle">[G]enerated [A]rtificial [I]ntelligence</p>
+            <p>Hi, I'm Gai! I am a companion to the Large Language Model (LLM) tools you use every day. I aggregate requests, listen for your cue, and then keep the important responses you tag me on within a local file or database.</p>
+            <p>In the future, I would also like to help spot AI hallucinations by comparing what you tag me in across alternate tools, for example, using Gemini to fact-check what ChatGPT said and vice versa.</p>
+            <p>Want to get started? Visit the GitHub repo to read through the more technical nitty-gritty, and if you're up for it, download the source and try it out!</p>
+            <a href="https://github.com/christimiller/gaikeep" class="btn" target="_blank"><i class="fab fa-github"></i> Download Source</a>
+        </div>
+        <img src="gaikeep-avatar.jpg" alt="GAI Keep Avatar" class="image-border">
+    </section>
+
+    <section id="ai-terminology" class="info-section-bg full-height">
+        <div class="text-block">
+            <h2 class="section-title">AI Terminology</h2>
+            <p class="subtitle">Generative AI</p>
+            <p>Generative AI is the frontier of automation, enabling machines to create new, unique content by learning from existing data.</p>
+            <p class="subtitle">Large Language Models</p>
+            <p>Large Language Models (LLMs) are the giants upon which modern AI communication stands, digesting vast swathes of text to converse, compose, and comprehend.</p>
+            <p class="subtitle">Machine Learning</p>
+            <p>Machine learning is a subset of AI focusing on building systems that learn from data, identifying patterns and making decisions without human intervention.</p>
+        </div>
+        <img src="gaikeep-desk.jpg" alt="GAI Keep at Desk" class="image-border">
+    </section>
+
+    <section id="supported-tools" class="full-height">
+        <div class="text-block">
+            <h2 class="section-title">Supported Tools</h2>
+            <p class="subtitle">ChatGPT</p>
+            <p>ChatGPT, with its responsive and nuanced text generation, is changing the way we think about interactions.</p>
+            <p class="subtitle">Gemini</p>
+            <p>Gemini is a versatile AI, capable of adapting to various roles, from an artistic muse generating novel designs to a data analyst providing actionable insights.</p>
+            <p class="subtitle">MidJourney</p>
+            <p>MidJourney is an AI that specializes in navigating the complexities of project management, offering real-time travel adjustments and personalized itinerary planning.</p>
+        </div>
+        <img src="gaikeep-future.jpg" alt="GAI Keep Future Vision" class="image-border">
+    </section>
+
+</body>
+</html>
+
