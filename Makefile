@@ -12,7 +12,7 @@ all: clean build run  # This target depends on completing clean and build steps 
 # For how the Go compiler works, including building for multiple targets: [https://go.dev/doc/compiler]
 build: 
 	@echo "Building..." && \
-	go build -o ./bin/gaikeep ./cmd/gaikeep && \
+	go build -o ./bin/gaikeep . && \
     chmod +x ./bin/gaikeep && \
     echo "Done building!"
 
@@ -36,9 +36,19 @@ clean:
 # Prepares the project environment (assuming Go is installed)
 # For more information on the 'go mod init' command, see the official docs: [https://go.dev/doc/cmd/go/#hdr-Create_a_new_module]
 # For more information on the 'go get' command, see the official docs: [https://go.dev/doc/cmd/go/#hdr-Download_and_install_packages_and_dependencies]
-setup: ## Prepares the project environment (assuming Go is installed)
-	if [ ! -f go.mod ]; then go mod init github.com/christimiller/gaikeep; fi
+setup:
+	@echo "Setting up the GAIKeep project environment..."
+	@which go || (echo "Go is not installed. Please install Go first."; exit 1)
+	@if [ ! -f go.mod ]; then \
+       	echo "Initializing new Go module..."; \
+        go mod init github.com/christimiller/gaikeep; \
+    fi
+	@echo "Installing dependencies..."
 	go get -u ./...
+	@echo "Installing Cobra CLI..."
+	go get -u github.com/spf13/cobra@latest
+	go install github.com/spf13/cobra-cli@latest
+	@echo "Setup completed!"
 
 # Run
 # Executes the GAIKeep application
