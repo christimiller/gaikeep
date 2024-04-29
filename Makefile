@@ -38,16 +38,27 @@ clean:
 # For more information on the 'go get' command, see the official docs: [https://go.dev/doc/cmd/go/#hdr-Download_and_install_packages_and_dependencies]
 setup:
 	@echo "Setting up the GAIKeep project environment..."
-	@which go || (echo "Go is not installed. Please install Go first."; exit 1)
+	@which go > /dev/null || { echo "Go is not installed. Please install Go first." ; exit 1; }
 	@if [ ! -f go.mod ]; then \
-       	echo "Initializing new Go module..."; \
+        echo "Initializing new Go module..."; \
         go mod init github.com/christimiller/gaikeep; \
     fi
-	@echo "Installing dependencies..."
-	go get -u ./...
-	@echo "Installing Cobra CLI..."
-	go get -u github.com/spf13/cobra@latest
-	go install github.com/spf13/cobra-cli@latest
+	@echo "Updating project dependencies..."
+	@go get -u ./...
+	@echo "Installing godotenv package..."
+	@go get github.com/joho/godotenv
+	# Check if .env file exists and prompt for API key if not
+	@if [ ! -f .env ]; then \
+        echo "No .env file found." && \
+        read -p "Enter your OpenAI API key (Press enter to skip): " apiKey && \
+        { [ -z "$$apiKey" ] && echo "No API key entered. Skipping .env file creation." || { \
+            echo "Creating .env file with API key..." && \
+            echo "OPENAI_API_KEY=$$apiKey" > .env && \
+            echo "API key stored in .env file. Please ensure .env is included in your .gitignore to prevent it from being committed."; \
+        } }; \
+    else \
+        echo ".env file already exists. If you need to change the API key, please edit the .env file directly."; \
+    fi
 	@echo "Setup completed!"
 
 # Run
