@@ -9,19 +9,17 @@ import (
 )
 
 func main() {
-	// Load .env file
+	// Load .env file to retrieve environment variables, if available
 	if err := godotenv.Load(); err != nil {
 		log.Println("Warning: No .env file found")
 	}
 
-	// Example of accessing an environment variable
+	// Ensure the OPENAI_API_KEY environment variable is set
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
-		log.Fatal("OPENAI_API_KEY is not set. Please check your .env file.")
+		log.Fatal("OPENAI_API_KEY is not set. Please check your .env file or set the environment variable.")
 	}
 
-	// Continue with executing the root command
-	if err := cmd.Execute(); err != nil {
-		log.Fatalf("Error executing root command: %s", err)
-	}
+	// Execute the root command of the application
+	cmd.Execute() // Adjusted to not expect a return value since the function handles its own errors
 }
