@@ -1,35 +1,50 @@
-// cmd/root.go
 package cmd
 
 import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/christimiller/gaikeep/internal/gaikeep/api"
+	"github.com/christimiller/gaikeep/internal/gaikeep/storage"
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "gaikeep",
 	Short: "GaiKeep is a companion to LLM tools",
 	Long: `GaiKeep aggregates requests, listens for cues, and stores important responses
 in a local file or database.`,
-	// Uncomment the line below if you have any root level flags
-	// PersistentPreRun: func(cmd *cobra.Command, args []string) {},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() error {
-	return rootCmd.Execute()
+// TestGPTCmd represents a subcommand to test interactions with ChatGPT
+var testGPTCmd = &cobra.Command{
+	Use:   "testgpt",
+	Short: "Test ChatGPT interaction",
+	Run: func(cmd *cobra.Command, args []string) {
+		apiKey := os.Getenv("OPENAI_API_KEY")
+		if apiKey == "" {
+			log.Fatal("OPENAI_API_KEY must be set in the environment variables")
+		}
+
+		response, err := api.FetchResponse(apiKey, "Hello, how can I help you today?")
+		if err != nil {
+			log.Fatalf("Failed to get response from OpenAI: %v", err)
+		}
+
+		err = storage.SaveResponse(response)
+		if err != nil {
+			log.Fatalf("Failed to save response: %v", err)
+		}
+
+		fmt.Println("Response from ChatGPT saved successfully.")
+	},
 }
 
-func init() {
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.gaikeep.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func Execute() {
+	rootCmd.AddCommand(testGPTCmd)
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
