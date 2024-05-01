@@ -4,62 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAIKeep - Your AI Assistant</title>
-    <!-- Google Fonts for a decorative and engaging look -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <link href="style.css" rel="stylesheet">
+    <style>
+        img {
+            width: 75%; /* Reduced size by 25% */
+            height: auto;
+        }
+        .navigation a:hover {
+            color: white;
+        }
+        .active-link {
+            color: white;
+        }
+        .navigation a:not(:hover) {
+            color: gray;
+        }
+        .card {
+            margin-top: 20px; /* Increased margin-top for more space above the cards */
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        section {
+            padding-top: 100px; /* Adjusted padding to ensure spacing from the navbar */
+        }
+        .main-title, .section-title {
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 48px; /* Standard size for main and section titles */
+        }
+        .section-title {
+            font-size: 40px; /* Slightly smaller than the main title */
+            margin-bottom: 20px; /* Added space below the section titles */
+        }
+        .sub-title {
+            text-align: center;
+            font-style: italic;
+        }
+
+        i.fas {
+          padding:30px;
+          float:right;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div id="nav-links" class="nav-links">
-            <a href="#gaikeep" class="current-page">GAIKeep</a> 
-            | <a href="#ai-terminology">Terminology</a>
-            | <a href="#supported-tools">Tools</a>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <nav class="bg-gray-800 p-4 fixed w-full z-10 top-0">
+        <div class="container mx-auto flex items-center justify-between">
+            <button class="text-white cursor-pointer md:hidden block ml-auto" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="hidden md:flex flex-col md:flex-row md:space-x-8 mt-2 md:mt-0 text-gray-400 hover:text-white navigation" id="mobile-menu">
+                <li><a href="#gaikeep" class="text-gray-400 hover:text-white">GAIKeep</a></li>
+                <li><a href="#ai-terminology" class="text-gray-400 hover:text-white">AI Terminology</a></li>
+                <li><a href="#supported-tools" class="text-gray-400 hover:text-white">Supported Tools</a></li>
+            </ul>
         </div>
-    </header>
-    <section id="gaikeep" class="full-height">
-        <div class="text-block">
-            <h1 class="main-title">GAIKeep</h1>
-            <p class="subtitle">[G]enerated [A]rtificial [I]ntelligence</p>
-            <p>Hi, I'm Gai! I am a companion to the Large Language Model (LLM) tools you use every day. I aggregate requests, listen for your cue, and then keep the important responses you tag me on within a local file or database.</p>
-            <p>In the future, I would also like to help spot AI hallucinations by comparing what you tag me in across alternate tools, for example, using Gemini to fact-check what ChatGPT said and vice versa.</p>
-            <p>Want to get started? Visit the GitHub repo to read through the more technical nitty-gritty, and if you're up for it, download the source and try it out!</p>
-            <a href="https://github.com/christimiller/gaikeep" class="btn" target="_blank"><i class="fab fa-github"></i> Download Source</a>
+    </nav>
+
+    <main class="pt-0 my-8">
+        <div class="container mx-auto px-6">
+            <section id="gaikeep" class="mb-8 flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 aspect-w-1 aspect-h-1">
+                  <img src="gaikeep-avatar.jpg" alt="GAIKeep Avatar" class="w-full h-full object-contain">
+                </div>
+                <div class="md:w-1/2 flex flex-col justify-center p-4">
+                    <h2 class="main-title">GAIKeep</h2>
+                    <p class="sub-title">[G]enerated [A]rtificial [I]ntelligence</p>
+                    <div class="card">
+                        <p class="text-gray-600 mb-4">Hi, I'm Gai! I am a companion to the Large Language Model (LLM) tools you use every day. I aggregate requests, listen for your cue, and then keep the important responses you tag me on within a local file or database.</p>
+                        <p class="text-gray-600 mb-4">In the future, I would also like to help spot AI hallucinations by comparing what you tag me in across alternate tools, for example, using Gemini to fact-check what ChatGPT said and vice versa.</p>
+                        <p class="text-gray-600">Want to get started? Visit the repo to read through the more technical nitty-gritty, and if you're up for it, download the source and try it out!</p>
+                        <div class="flex justify-center items-center">
+                            <a href="https://github.com/christimiller/gaikeep" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4">
+                                <i class="fab fa-github"></i> Download Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ai-terminology" class="mb-8 flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 aspect-w-1 aspect-h-1">
+                  <img src="gaikeep-desk.jpg" alt="GAIKeep at Desk" class="w-full h-full object-contain">
+                </div>
+                <div class="md:w-1/2 flex flex-col justify-center p-4">
+                    <h2 class="section-title">AI Terminology</h2>
+                    <div class="flex flex-col space-y-4">
+                        <div class="card">
+                            <h3 class="text-lg text-gray-800 font-semibold">Generative AI</h3>
+                            <p class="text-gray-600">Generative AI refers to algorithms that use machine learning techniques to generate new content or data. It's like an artist who paints from an unseen palette, creating unique music, art, or text from patterns learned during training.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg text-gray-800 font-semibold">Large Language Models</h3>
+                            <p class="text-gray-600">Large Language Models (LLMs) are advanced AI systems that process and generate human-like text based on the data they've been trained on. They understand and produce language by modeling relationships between words.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg text-gray-800 font-semibold">Machine Learning</h3>
+                            <p class="text-gray-600">Machine Learning is a subset of AI that enables systems to learn from data, identify patterns, and make decisions with minimal human intervention. It's the science of getting computers to act without being explicitly programmed.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="supported-tools" class="mb-8 flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 aspect-w-1 aspect-h-1">
+                  <img src="gaikeep-future.jpg" alt="GAIKeep Future Vision" class="w-full h-full object-contain">
+                </div>
+                <div class="md:w-1/2 flex flex-col justify-center p-4">
+                    <h2 class="section-title">Supported Tools</h2>
+                    <div class="flex flex-col space-y-4">
+                        <div class="card">
+                            <h3 class="text-lg text-gray-800 font-semibold">ChatGPT</h3>
+                            <p class="text-gray-600">ChatGPT is a state-of-the-art language processing AI tool that can converse with users and generate human-like text. I save your most valuable interactions, ensuring nothing is lost as you explore or generate content.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg text-gray-800 font-semibold">Gemini</h3>
+                            <p class="text-gray-600">Gemini is an adaptable AI that excels in providing contextually aware responses. I make sure all your queries and their innovative solutions are recorded for continuous learning and reference.</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="text-lg text-gray-800 font-semibold">MidJourney</h3>
+                            <p class="text-gray-600">MidJourney transforms written descriptions into stunning visual images. I keep track of your creative journeys, cataloguing each step for future inspiration and development.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        <img src="gaikeep-avatar.jpg" alt="GAIKeep Avatar" class="image-border">
-    </section>
-    <section id="ai-terminology" class="info-section-bg full-height">
-        <div class="text-block">
-            <h2 class="section-title">AI Terminology</h2>
-            <p class="subtitle">Generative AI</p>
-            <p>Generative AI is the frontier of automation, enabling machines to create new, unique content by learning from existing data.</p>
-            <p class="subtitle">Large Language Models</p>
-            <p>Large Language Models (LLMs) are the giants upon which modern AI communication stands, digesting vast swathes of text to converse, compose, and comprehend.</p>
-            <p class="subtitle">Machine Learning</p>
-            <p>Machine learning is a subset of AI focusing on building systems that learn from data, identifying patterns and making decisions without human intervention.</p>
-        </div>
-        <img src="gaikeep-desk.jpg" alt="GAIKeep at Desk" class="image-border">
-    </section>
-    <section id="supported-tools" class="full-height">
-        <div class="text-block">
-            <h2 class="section-title">Supported Tools</h2>
-            <p class="subtitle">ChatGPT</p>
-            <p>ChatGPT excels in generating conversational text, making it an ideal choice for natural language interactions and creative writing tasks.  It can craft different content formats, like poems, code, scripts, musical pieces, email, letters, etc.</p>
-            <p class="subtitle">Gemini</p>
-            <p>Gemini is a versatile AI adaptable to various roles. Its strength lies in understanding context and tailoring its responses, making it useful for everything from creative text generation to data analysis.</p>
-            <p class="subtitle">MidJourney</p>
-            <p>Midjourney specializes in transforming textual descriptions into visually stunning images. With customizable parameters, users can meticulously control the style, mood, and details of their generated artwork.</p>
-        </div>
-        <img src="gaikeep-future.jpg" alt="GAIKeep Future Vision" class="image-border">
-    </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-4">
+        © 2024 <a href="https://christimiller.net" target="_blank" class="hover:text-blue-300">Christi Miller</a>. All rights reserved.
+    </footer>
 </body>
 </html>
 
